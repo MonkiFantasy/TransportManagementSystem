@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_server"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TransportManagementSystem">
+        <provider
+            android:name=".provider.TicketProvider"
+            android:authorities="monki.study.system_server.provider.ticketprovider"
+            android:enabled="true"
+            android:exported="true"></provider>
+
+        <activity
+            android:name=".InfoManagement"
+            android:exported="false" />
+        <activity
+            android:name=".InfoRetrieve"
+            android:exported="false" />
+        <activity
+            android:name=".ShiftActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TicketActivity"
+            android:exported="false" />
+
+        <provider
+            android:name=".provider.LineInfoProvider"
+            android:authorities="monki.study.system_server.provider.lineinfoprovider"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".InformationManageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".InformationRetrieveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LineActivity"
+            android:exported="false" />
+
+        <provider
+            android:name=".provider.PassengerProvider"
+            android:authorities="monki.study.system_server.provider.passengerprovider"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".CarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
