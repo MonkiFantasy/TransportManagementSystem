@@ -31,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.ib_ticket:
                 Intent intent1 = new Intent(this, TicketPurchaseActivity.class);
+                intent1.putExtra("phone",passengerPhone);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent1);
                 break;

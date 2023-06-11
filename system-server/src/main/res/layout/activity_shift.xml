@@ -136,10 +136,13 @@
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:background="@drawable/editext_selector"
-            android:hint="请输入发车时间"
+            android:hint="请选择发车时间"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="17sp" />
+
+
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -163,7 +166,7 @@
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:background="@drawable/editext_selector"
-            android:hint="请输入到站时间"
+            android:hint="请选择到站时间"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="17sp" />

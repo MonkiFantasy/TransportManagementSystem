@@ -2,20 +2,25 @@ package monki.study.system_server;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import monki.study.system_server.database.MyDBHelper;
 import monki.study.system_server.entity.ShiftInfo;
 import monki.study.system_server.util.ToastUtil;
 
-public class ShiftActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShiftActivity extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
-    EditText etShiftId,etCarId,etLineId,etShiftState,etTimeStart,etTimeArrive,etShiftseatsSold;
+    private EditText etShiftId,etCarId,etLineId,etShiftState,etTimeStart,etTimeArrive,etShiftseatsSold;
+    private EditText etSelected;
     private MyDBHelper myDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class ShiftActivity extends AppCompatActivity implements View.OnClickList
         etShiftseatsSold=findViewById(R.id.et_shift_seats_sold);
         findViewById(R.id.btn_save).setOnClickListener(this);
         findViewById(R.id.btn_insert_ticket).setOnClickListener(this);
+        etTimeStart.setOnClickListener(this);
+        etTimeArrive.setOnClickListener(this);
 
     }
 
@@ -69,7 +76,40 @@ public class ShiftActivity extends AppCompatActivity implements View.OnClickList
                 ContentValues values = new ContentValues();
 
                 break;
+            case R.id.et_time_start:
+                etSelected=etTimeStart;
+                Calendar calendar1 = Calendar.getInstance();
+                TimePickerDialog dialog1 = new TimePickerDialog(this, android.R.style.Theme_DeviceDefault_Dialog,this,
+                        calendar1.get(Calendar.HOUR_OF_DAY),
+                        calendar1.get(Calendar.MINUTE),
+                        true);
+                dialog1.show();
+                break;
+            case R.id.et_time_arrive:
+                etSelected=etTimeArrive;
+                Calendar calendar2 = Calendar.getInstance();
+                TimePickerDialog dialog2 = new TimePickerDialog(this, android.R.style.Theme_DeviceDefault_Dialog ,this,
+                        calendar2.get(Calendar.HOUR_OF_DAY),
+                        calendar2.get(Calendar.MINUTE),
+                        true);
+                dialog2.show();
+                break;
+
 
         }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        String time =hourOfDay+ ":"+minute;
+            switch (etSelected.getId()){
+            case R.id.et_time_start:
+                etTimeStart.setText(time);
+                break;
+            case R.id.et_time_arrive:
+                etTimeArrive.setText(time);
+                break;
+        }
+
     }
 }

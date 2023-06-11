@@ -8,21 +8,17 @@ import android.net.Uri;
 
 import monki.study.system_server.database.MyDBHelper;
 
-public class LineInfoProvider extends ContentProvider {
-    public LineInfoProvider() {
-    }
+public class ShiftInfoProvider extends ContentProvider {
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI("monki.study.system_server.provider.lineinfoprovider", "lineInfo", 1);
+        uriMatcher.addURI("monki.study.system_server.provider.shiftinfoprovider", "/shiftInfo", 1);
     }
+
     private MyDBHelper myDBHelper;
-    @Override
-    public boolean onCreate() {
-        // TODO: Implement this to initialize your content provider on startup.
-        myDBHelper= MyDBHelper.getInstance(getContext());
-        return true;
+    public ShiftInfoProvider() {
     }
+
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
@@ -42,23 +38,27 @@ public class LineInfoProvider extends ContentProvider {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-
+    @Override
+    public boolean onCreate() {
+        // TODO: Implement this to initialize your content provider on startup.
+        return false;
+    }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         // TODO: Implement this to handle query requests from clients.
-        Cursor lineInfo=null;
+        Cursor shiftInfo=null;
         int match =uriMatcher.match(uri);
         switch (match){
             case 1:
-                lineInfo = myDBHelper.getReadableDatabase().query("lineInfo", projection, selection, selectionArgs, null, null, null);
+                shiftInfo = myDBHelper.getReadableDatabase().query("lineInfo", projection, selection, selectionArgs, null, null, null);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri+"match="+String.valueOf(match));
         }
 
-        return lineInfo;
+        return shiftInfo;
     }
 
     @Override

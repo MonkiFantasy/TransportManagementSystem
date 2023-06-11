@@ -1,22 +1,25 @@
 package monki.study.system_client;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import monki.study.system_client.entity.LineInfo;
 import monki.study.system_client.entity.TicketInfo;
@@ -28,20 +31,37 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
     private Spinner spDestination;
     private Spinner spTicket;
     private String[] tickets;
+    private String authorities;
+    private String str;
+    private Uri uri;
+    private int passengerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_parse);
+        setContentView(R.layout.activity_ticket_purchase);
         spStart = findViewById(R.id.sp_start);
         spDestination = findViewById(R.id.sp_destination);
         spTicket = findViewById(R.id.sp_ticket);
         findViewById(R.id.btn_search).setOnClickListener(this);
+        findViewById(R.id.btn_purchase).setOnClickListener(this);
         //初始化站点选择列表
         spinnerLoading();
+        passengerId = getPassengerId();
 
 
     }
+
+    private int getPassengerId() {
+        Intent intent=getIntent();
+        String passengerPhone = intent.getStringExtra("phone");
+        String s = "content://"+"monki.study.system_server.provider.passengerprovider"+"/passengerInfo";
+        Uri uri = Uri.parse(s);
+        Cursor cursor = getContentResolver().query(uri,new String[]{"passengerId"},"passengerPhone=?",new String[]{passengerPhone},null);
+        cursor.moveToFirst();
+        return cursor.getInt(0);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -52,7 +72,7 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
 
                     List<String> ticket = new ArrayList<>();
                     for (TicketInfo ticketInfo : info) {
-                        ticket.add("班次："+ticketInfo.getShiftId()+"价格："+ticketInfo.getTicketPrice()+"票号"+ticketInfo.getTicketId());
+                        ticket.add("票号:"+ticketInfo.getTicketId()+" 班次:"+ticketInfo.getShiftId()+" 价格:"+ticketInfo.getTicketPrice());
                     }
                     tickets= ticket.toArray(new String[0]);
 
@@ -60,15 +80,46 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
                     spTicket.setAdapter(adapter_ticket);
                 }
                 break;
+            case R.id.btn_purchase:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this).
+                        setTitle("买票")
+                        .setMessage("确定要购买这张票吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                authorities= "monki.study.system_server.provider.ticketprovider";
+                                str = "content://" + authorities+ "/ticketInfo";
+                                uri = Uri.parse(str);
+                                ContentValues values = new ContentValues();
+                                values.put("passengerId",passengerId);
+                                values.put("isSold",1);
+                                Pattern pattern = Pattern.compile("票号:(\\d+)");
+                                Matcher matcher = pattern.matcher(spTicket.getSelectedItem().toString());
+                                String ticketNumber=null;
+                                if(matcher.find()){
+                                    ticketNumber = matcher.group(1);
+                                    ToastUtil.show(TicketPurchaseActivity.this,"票号"+ticketNumber);
+                                }
+                                int affectedRows=getContentResolver().update(uri,values,"ticketId=?",new String[]{ticketNumber});
+                                if (affectedRows==0){
+                                    ToastUtil.show(TicketPurchaseActivity.this,"购票失败");
+                                }else{
+                                    ToastUtil.show(TicketPurchaseActivity.this,"购票成功");
+                                }
+                            }
+                        }).setNegativeButton("取消",null);
+                        dialog.show();
+
+                break;
         }
     }
 
 
 
     private List<TicketInfo> seachTicketInfo() {
-        String AUTHORITIES = "monki.study.system_server.provider.lineinfoprovider";
-        String str = "content://" + AUTHORITIES + "/lineInfo";
-        Uri uri = Uri.parse(str);
+        authorities = "monki.study.system_server.provider.lineinfoprovider";
+        str = "content://" + authorities + "/lineInfo";
+        uri = Uri.parse(str);
         Cursor cursor = null;
         //根据站点查找线路号
         cursor = getContentResolver().query(uri, new String[]{"lineId"}, "startPoint=? and destination =?", new String[]{spStart.getSelectedItem().toString(), spDestination.getSelectedItem().toString()}, null);
@@ -80,8 +131,8 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
             cursor.moveToFirst();
             int lineNumber = cursor.getInt(0);
             ToastUtil.show(this, String.valueOf(lineNumber));
-            AUTHORITIES = "monki.study.system_server.provider.ticketprovider";
-            str = "content://" + AUTHORITIES + "/ticketInfo";
+            authorities = "monki.study.system_server.provider.ticketprovider";
+            str = "content://" + authorities + "/ticketInfo";
             uri = Uri.parse(str);
             //根据线路号查未卖出车票信息
 
@@ -89,7 +140,7 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
             cursor = getContentResolver().query(uri,new String[]{"shiftId","ticketPrice","ticketId"},"isSold=0 and lineId="+lineNumber,null,null);
             info = new ArrayList<>();
             if (cursor == null || cursor.moveToFirst() == false) {
-                ToastUtil.show(this, "数据库中无当前线路车票");
+                ToastUtil.show(this, "无当前线路车票");
             }else{
                 //ToastUtil.show(this,"进入while语句之前");
                 cursor.moveToPosition(-1);
@@ -146,6 +197,7 @@ public class TicketPurchaseActivity extends AppCompatActivity implements View.On
         spDestination.setAdapter(adapter_destination);
 
         spTicket.setAdapter(adapter_ticket);
+
     }
 
 

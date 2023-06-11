@@ -42,7 +42,7 @@ public class TicketProvider extends ContentProvider {
 
         int match = uriMatcher.match(uri);
         switch (match) {
-            case 1: // match for passengerInfo
+            case 1:
                 rowId = db.insert("ticketInfo", null, values);
                 break;
             default:
@@ -80,6 +80,16 @@ public class TicketProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        myDBHelper= MyDBHelper.getInstance(getContext());
+        SQLiteDatabase db = myDBHelper.getWritableDatabase();
+        int match = uriMatcher.match(uri);
+        switch (match) {
+            case 1:
+                //String sql="select shiftId,ticketPrice from ticketInfo where isSold=0 and lineId=1";
+                int ticketInfo = db.update("ticketInfo", values, selection, selectionArgs);
+                return ticketInfo;
+            default:
+                throw new IllegalArgumentException("Unsupported URI: " + uri);
+        }
     }
 }

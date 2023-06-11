@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:layout_margin="10dp"
-    tools:context=".SelfInfoActivity">
+    tools:context=".TicketPurchaseActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,4 +93,13 @@
             android:text="车票"/>
 
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_purchase"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/my_button"
+        android:text="购买"
+        android:textColor="@color/teal_200"
+        android:textSize="30sp"/>
 </LinearLayout>
