@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:background="@drawable/qhc"
+    tools:context=".SelfInfoActivity">
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#274491"
+        android:text="数据库查询"
+        android:textSize="50dp"/>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:rowCount="3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ib_line_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/line"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="线路表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ib_shift_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/shift"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="班次表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ib_passenger_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/passenger"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="乘客表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ib_driver_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/driver"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="驾驶员表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ib_car_table"
+                android:layout_width="100dp"
+                android:layout_height="104dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/traffic_jam" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="车辆表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageButton
+
+                android:id="@+id/ib_ticket_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ticket"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="车票表"
+                android:textColor="#274491"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </GridLayout>
+</LinearLayout>

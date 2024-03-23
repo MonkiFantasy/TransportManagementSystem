@@ -1,0 +1,14 @@
+<!-- list_item_layout.xml -->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listItemTextView"
+    android:gravity="center"
+    android:background="@drawable/editext_selector"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:scaleY="1"
+    android:scaleX="1"
+    android:maxLines="3"
+    android:ellipsize="none"
+    android:textColor="#274491"
+    android:textSize="20sp" />
